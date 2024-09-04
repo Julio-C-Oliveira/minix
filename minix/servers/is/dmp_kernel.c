@@ -115,6 +115,31 @@ monparams_dmp(void)
   printf("\n%s\n", val);
 }
 
+
+
+void
+info_on_f5(void)
+{
+  struct proc *p;
+    int i;
+
+    printf("Process ID | CPU Time | System Time | Child Time | Stack Pointer | Data Segment | BSS Segment | Text Segment\n");
+    for (i = 0; i < NR_PROCS; i++) {
+        p = &proc[i];
+        if (p->p_rts_flags == 0) { // Verifica se o processo está em execução
+            printf("%10d | %8ld | %11ld | %10ld | %13p | %13p | %13p\n",
+                   p->p_endpoint,
+                   p->p_user_time,
+                   p->p_sys_time,
+                   p->p_child_utime,
+                   p->p_reg.sp,
+                   p->p_seg[D].mem_phys,
+                   p->p_seg[B].mem_phys,
+                   p->p_seg[T].mem_phys);
+        }
+    }
+}
+
 /*===========================================================================*
  *				irqtab_dmp				     *
  *===========================================================================*/
